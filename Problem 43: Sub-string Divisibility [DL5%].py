@@ -15,6 +15,7 @@ To solve this, we will create 2 functions namely;
 '''
 #Importing our favourite library. For the moment, use of the libraries is arbitrary (sometimes will try to develop code that already exists in libraries so I can sharpen my thinking capabilities)
 import numpy as np
+import itertools
 
 #Defining a function to generate all 10-digit pandigital numbers 
 def pandigital_generator():
@@ -28,17 +29,12 @@ def pandigital_generator():
     '''
     #Defining the number of pandigital numbers 
     number_of_pandigitals = 3265920 
+    list_of_digits = [0,1,2,3,4,5,6,7,8,9]
     #Creating the list that will store our discovered pandigital and be converteed to array at the end
-    pandigital_list = []
-
-    #Rather than geneate each number, it makes more sense to check that a given 10-digit number is pandigital by checking that each digit only appears once
-    for num in range(int(10e9),int(10e10)):
-        #Converting a number into a numpy array of all its digits by converting the subject number into a string, generating a list which holds each string and creating a new list that converts each element of the string list into an int
-        num_np = np.array([int(element) for element in (list(str(num)))])
-        #Check if the array has only unique elements and if so, add it to our pandigital_list
-        if len(np.unique(num_np))==10: pandigital_list.append(num)
+    pandigital_list = list(itertools.permutations(list_of_digits,10))
     print(pandigital_list)
-    print(len(pandigital_list))
+
+    
 
 
 pandigital_generator()

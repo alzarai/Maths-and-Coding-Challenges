@@ -1,5 +1,5 @@
 '''
-PROBLEM STATUS: IN PROGRESS
+PROBLEM STATUS: COMPLETE
 
 PROBLEM DIFFICULTY LEVEL: 5%
 
@@ -48,11 +48,11 @@ def pandigital_generator():
 def divisibility_checker(value):
     '''
     Description:
-        Computes whether a given number satisfies 
+        Computes whether a given number satisfies the divisibility rules defined in the question
     Args:
-        value (int): the upperbound of our potential multiples of 3 or 5
+        value (int): the pandigital number that is to be checked
     Returns:
-        None. Prints the answer.
+        checker (boolean): the value of whether the given pandigital satisfies the divisiblity rule or not
     '''
     #Defining an array of integers we use for checking divisibility allowing for easy looping
     divisibility_integers = np.array([2,3,5,7,11,13,17])

@@ -32,19 +32,20 @@ def pandigital_generator():
     #Creating the list of pandigitals using permutations but only including the value if the starting digit is not 0
     pandigital_list = [dig for dig in itertools.permutations(list_of_digits,10) if dig[0]!=0]
     #Combining the digits from the itertools (that come as a comma seperated list) into one value and resaving it to my pandigital list
-    #pandigital_list = (int(''.join(str(digit) for digit in value)) for value in pandigital_list)
-    my_list = [(1, 0, 2, 3, 4, 5, 6, 7, 8, 9), (1, 0, 2, 3, 4, 5, 6, 7, 9, 8), (1, 0, 2, 3, 4, 5, 6, 8, 7, 9)]
-    #my_list_proper = (int(''.join(str(digit) for digit in value)) for value in my_list)
-    print(d for d in my_list)
-
-
+    pandigital_list = list(int(''.join(str(digit) for digit in value)) for value in pandigital_list)
     
+    #Creating a list that will store the values that pass the checker test
+    pandigital_divisibility_list = []
+    #Looping through all existing pandigital lists to check each one's divisibility and appending to our list if true
+    for number in pandigital_list:
+        if divisibility_checker(number) == True:
+            pandigital_divisibility_list.append(number)
 
-
-pandigital_generator()
+    #Printing the final answer, which is the sum of values in this list
+    print(np.sum(np.array(pandigital_divisibility_list)))
 
 #Defining a function to evaluate whether a given 10-digit number is 0 to 9 pandigital
-def pandigital_checker(value):
+def divisibility_checker(value):
     '''
     Description:
         Computes whether a given number satisfies 
@@ -53,5 +54,17 @@ def pandigital_checker(value):
     Returns:
         None. Prints the answer.
     '''
-    #Defining an array of our factors
-    factor_array = np.array([3,5])
+    #Defining an array of integers we use for checking divisibility allowing for easy looping
+    divisibility_integers = np.array([2,3,5,7,11,13,17])
+    #looping through our digits
+    for looper in range(len(divisibility_integers)):
+        #Subsequently looping through the required digits in our number and checking divisiblity against required integers to return true
+        if((int(str(value)[looper+1:looper+4])) % divisibility_integers[looper]) == 0:
+            checker = True
+        else:
+            #Breaking the loop to save computational resource and manpower
+            checker = False
+            break
+    return(checker)
+
+pandigital_generator()

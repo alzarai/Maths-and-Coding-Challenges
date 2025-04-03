@@ -49,4 +49,17 @@ def reversing(original_list):
         reversed_number = int(''.join(str(num) for num in num_as_str_reversed)) 
         #Adding the original number and reversed number into a list as a tuple
         pairs_list.append((original_number,reversed_number))
+        pairs_array = np.array(pairs_list)
     return(pairs_list)
+lst = [1,25,52,67]
+print(reversing(lst))
+
+def reversible_number_check(pair_list):
+    '''
+    Description:
+        Returns a list of all pairs that satisfy the reversibility condition (all digits being 0)
+    Args:
+        pairs_array (ndarray): (m,2) A list that containts all pairs (original and reversed) of potential reversible numbers
+    Returns:
+        reversible_numbers_array (ndarray): (m) The required list of all unique reversible numbers
+    '''

@@ -12,31 +12,41 @@ To solve this, we will create 2 functions namely;
 
 '''
 import numpy as np
-import math
 #Lets start with all reversible numbers under 20
 
 #Creating a function that has created a list of all numbers (2 digits or greater) below our max_range, and then removes all values with trailing zeroes
 def valid_integers(max_range):
+    '''
+    Description:
+        Returns a list of all positive integers n, below a certain maximum, that do not have leading zeroes
+    Args:
+        max_range (int): The upperbound / limit that we want to compute reversible numbers for
+    Returns:
+        number_list (ndarray): (m,) The required list of m
+    '''
     start_value=11
     #Creates a list of all numbers under our max_range
     total_number_list = np.arange(start_value,max_range+1)
     #Removing all the values with leading zeroes
-    number_list = [number for number in total_number_list if number%10 != 0]
-    print(total_number_list)
-    print(number_list)
-    '''for digit in total_number_list:
-        #Mathematically calculating the number of digits of a number. This will help us know how many times we divide by 10 to conclusively check for leading zeroes
-        digit_size_val = math.floor(math.log10(digit)) + 1
-        #Current number has to be checked for leading zeroes 
-        for divisor in range(1,digit_size_val+1):
-            if((digit%10**divisor)==0):
-                leading_zero_check = True
-                break
-            else:
-                leading_zero_check = False
-        if(leading_zero_check == True):
-            #Removing that value from the list. We can use .remove() as we know that each value only occurs once
-            digit_list.remove(digit)
-    print(digit_list)'''
+    number_list = np.array([number for number in total_number_list if number%10 != 0])
 
-valid_integers(42)
+def reversing(original_list):
+    '''
+    Description:
+        Returns a list of tuples that contains a value and its reversed form
+    Args:
+        original_list (ndarray): (m,) A list that containts all the values that need to be reversed
+    Returns:
+        pairs_list (ndarray): (m,2) The required list of original numbers and their reversed counterparty
+    '''
+    pairs_list = []
+    for original_number in original_list:
+        #Converting int to string for easier reversal
+        num_as_str = list(str(original_number))
+        #Reversing our number
+        num_as_str_reversed = num_as_str[::-1]
+        #Defining the new reversed number as an integer
+        reversed_number = int(''.join(str(num) for num in num_as_str_reversed)) 
+        #Adding the original number and reversed number into a list as a tuple
+        pairs_list.append((original_number,reversed_number))
+    return(pairs_list)

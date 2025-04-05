@@ -30,16 +30,22 @@ def valid_integers(max_range):
     #Removing all the values with leading zeroes
     number_list = np.array([number for number in total_number_list if number%10 != 0])
 
-def reversing(original_list):
+def unique_reversing(original_list):
     '''
     Description:
         Returns a list of tuples that contains a value and its reversed form
     Args:
         original_list (ndarray): (m,) A list that containts all the values that need to be reversed
     Returns:
-        pairs_list (ndarray): (m,2) The required list of original numbers and their reversed counterparty
+        pairs_list (ndarray): (m/2,m/2) The required list of original numbers and their reversed counterparty
     '''
+    #A list that will store the first occurance of any number
+    first_occurance = []
+    #A list that will store the reversed value of the related number in the first occurance list (numbers will be checked against this list before being added to first occurance list) 
+    second_occurance = []
+    #List that will store the (number,reversed_number) pair for all possible pairings
     pairs_list = []
+    #Loop to reverse through all our numbers, check if it is already an existing pair, and adding to the appropriate lists
     for original_number in original_list:
         #Converting int to string for easier reversal
         num_as_str = list(str(original_number))
@@ -47,12 +53,19 @@ def reversing(original_list):
         num_as_str_reversed = num_as_str[::-1]
         #Defining the new reversed number as an integer
         reversed_number = int(''.join(str(num) for num in num_as_str_reversed)) 
-        #Adding the original number and reversed number into a list as a tuple
-        pairs_list.append((original_number,reversed_number))
-        pairs_array = np.array(pairs_list)
+        #Making sure that only unique pairings are represented in the pairs list - values will only be added if the newly reversed number does has not already been used as an original number
+        if(reversed_number not in first_occurance):
+            first_occurance.append(original_number)
+            second_occurance.append(reversed_number)
+    #Creating the list that will store the unique pairing of a number and its reversal
+    pairs_list = [(x, y) for x, y in zip(first_occurance, second_occurance)]
     return(pairs_list)
-lst = [1,25,52,67]
-print(reversing(lst))
+
+
+lst = [18,25,52,67,31,13,44,520,205]
+print(lst)
+print(unique_reversing(lst))
+
 
 def reversible_number_check(pair_list):
     '''

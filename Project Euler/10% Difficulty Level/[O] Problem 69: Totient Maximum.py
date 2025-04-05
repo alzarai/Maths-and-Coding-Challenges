@@ -1,0 +1,10 @@
+'''
+PROBLEM STATUS: OPEN
+
+PROBLEM DIFFICULTY LEVEL: 10%
+
+PROBLEM STATEMENT
+https://projecteuler.net/problem=25
+'''
+
+

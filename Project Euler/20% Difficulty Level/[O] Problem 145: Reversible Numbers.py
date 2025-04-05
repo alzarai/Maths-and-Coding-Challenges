@@ -1,7 +1,7 @@
 '''
-PROBLEM STATUS: INCOMPLETE (need to find way to reduce run time?? At the moment its too computationally intense for your laptop - checking for 1e6 doesn't finish)
+PROBLEM STATUS: OPEN (need to find way to reduce run time?? At the moment its too computationally intense for your laptop - checking for 1e6 doesn't finish)
 
-PROBLEM DIFFICULTY LEVEL: 25%
+PROBLEM DIFFICULTY LEVEL: 20%
 
 PROBLEM STATEMENT
 https://projecteuler.net/problem=145

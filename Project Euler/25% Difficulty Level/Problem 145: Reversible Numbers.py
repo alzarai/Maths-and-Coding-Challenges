@@ -1,5 +1,5 @@
 '''
-PROBLEM STATUS: COMPLETE
+PROBLEM STATUS: INCOMPLETE (need to find way to reduce run time?? At the moment its too computationally intense for your laptop - checking for 1e6 doesn't finish)
 
 PROBLEM DIFFICULTY LEVEL: 25%
 
@@ -7,22 +7,21 @@ PROBLEM STATEMENT
 https://projecteuler.net/problem=145
 
 To solve this, we will create 2 functions namely;
-        (1) To reverse a given number
-        (2) To check which of the numbers in (1) satisfy the stipulated condition
+        (1) To create a list of all possible numbers (no leading 0s) along with their reversed forms, such that each number only occurs once
+        (2) To check which of the numbers in (1) satisfy the stipulated condition, and how many such numbers (number and its pair) exist
 
 '''
 import numpy as np
-#Lets start with all reversible numbers under 20
 
-#Creating a function that has created a list of all numbers (2 digits or greater) below our max_range, and then removes all values with trailing zeroes
-def valid_integers(max_range):
+#Creating a function that creates the pair of uniquely reversed numbers
+def unique_reversed_pair_generator(max_range):
     '''
     Description:
-        Returns a list of all positive integers n, below a certain maximum, that do not have leading zeroes
+        Returns a list of tuples that contains a value and its reversed form, after creating a list of all positive integers n, below a certain maximum, that do not have leading zeroes
     Args:
         max_range (int): The upperbound / limit that we want to compute reversible numbers for
     Returns:
-        number_list (ndarray): (m,) The required list of m
+        pairs_list (ndarray): (m/2,m/2) The required list of original numbers and their reversed counterparty
     '''
     start_value=11
     #Creates a list of all numbers under our max_range
@@ -30,15 +29,6 @@ def valid_integers(max_range):
     #Removing all the values with leading zeroes
     number_list = np.array([number for number in total_number_list if number%10 != 0])
 
-def unique_reversing(original_list):
-    '''
-    Description:
-        Returns a list of tuples that contains a value and its reversed form
-    Args:
-        original_list (ndarray): (m,) A list that containts all the values that need to be reversed
-    Returns:
-        pairs_list (ndarray): (m/2,m/2) The required list of original numbers and their reversed counterparty
-    '''
     #A list that will store the first occurance of any number
     first_occurance = []
     #A list that will store the reversed value of the related number in the first occurance list (numbers will be checked against this list before being added to first occurance list) 
@@ -46,7 +36,7 @@ def unique_reversing(original_list):
     #List that will store the (number,reversed_number) pair for all possible pairings
     pairs_list = []
     #Loop to reverse through all our numbers, check if it is already an existing pair, and adding to the appropriate lists
-    for original_number in original_list:
+    for original_number in number_list:
         #Converting int to string for easier reversal
         num_as_str = list(str(original_number))
         #Reversing our number
@@ -58,21 +48,43 @@ def unique_reversing(original_list):
             first_occurance.append(original_number)
             second_occurance.append(reversed_number)
     #Creating the list that will store the unique pairing of a number and its reversal
-    pairs_list = [(x, y) for x, y in zip(first_occurance, second_occurance)]
-    return(pairs_list)
-
-
-lst = [18,25,52,67,31,13,44,520,205]
-print(lst)
-print(unique_reversing(lst))
+    pairs_list = np.array([(x, y) for x, y in zip(first_occurance, second_occurance)])
+    #Executing the next function that will check for reversible numbers within our pairs list
+    number_of_reversible_numbers = len(reversible_number_check(pairs_list))*2
+    return(number_of_reversible_numbers)
 
 
 def reversible_number_check(pair_list):
     '''
     Description:
-        Returns a list of all pairs that satisfy the reversibility condition (all digits being 0)
+        Returns a list of all pairs that satisfy the reversibility condition (all digits being odd)
     Args:
-        pairs_array (ndarray): (m,2) A list that containts all pairs (original and reversed) of potential reversible numbers
+        pair_list (ndarray): (n,n) A list that containts all pairs (original and reversed) of potential reversible numbers
     Returns:
-        reversible_numbers_array (ndarray): (m) The required list of all unique reversible numbers
+        reversible_numbers_array (ndarray): (p) The required list of all unique reversible numbers. Array size reduced from n to p
     '''
+    #A list that will store boolean values on whether a giving pairing's sum satisifies the checked condiiton or not
+    truth_list  = []
+    #Looping through all our current examples
+    for pair in pair_list:
+        #Calculating the property to be checked, namely sum[n + reverse(n)]
+        pair_sum = np.sum(pair)
+        #Converting to a (string) list to check across all digits
+        pair_sum_str = list(str(pair_sum))
+        #Looping through all digits of the current pair sum
+        for x in range(len(pair_sum_str)):
+            #Checking to see if the current digit is an odd number 
+            if ((int(pair_sum_str[x])%2) != 0):
+                odd_check = True
+            else:
+                odd_check = False
+                break
+        truth_list.append(odd_check)
+    #Converting the boolean list to a numpy array for easier manipulation, now that all additions to the list have been completed
+    truth_list = np.array(truth_list)
+    #Creating our required list of only the pairings that satisified the condition (returned "True" in the truth list / odd checker)
+    reversible_pairs_array = pair_list[truth_list]
+    return(reversible_pairs_array)
+
+#Evaluating the functions and printing the answer given to us
+print(unique_reversed_pair_generator(int(1e5))) #As the problem mentions, the solution is 120 reversible numbers below 1,000 (1e4)

@@ -44,7 +44,7 @@ def unique_reversed_pair_generator(max_range):
         #Defining the new reversed number as an integer
         reversed_number = int(''.join(str(num) for num in num_as_str_reversed)) 
         #Making sure that only unique pairings are represented in the pairs list - values will only be added if the newly reversed number does has not already been used as an original number
-        if(reversed_number not in first_occurance):
+        if(reversed_number not in set(first_occurance)):
             first_occurance.append(original_number)
             second_occurance.append(reversed_number)
     #Creating the list that will store the unique pairing of a number and its reversal
@@ -65,6 +65,11 @@ def reversible_number_check(pair_list):
     '''
     #A list that will store boolean values on whether a giving pairing's sum satisifies the checked condiiton or not
     truth_list  = []
+
+    reversible_pairs_array_2 = pair_list[int(list(str(np.sum(pair_list))))%2!=0]
+    return(reversible_pairs_array_2)
+
+
     #Looping through all our current examples
     for pair in pair_list:
         #Calculating the property to be checked, namely sum[n + reverse(n)]
@@ -87,4 +92,4 @@ def reversible_number_check(pair_list):
     return(reversible_pairs_array)
 
 #Evaluating the functions and printing the answer given to us
-print(unique_reversed_pair_generator(int(1e5))) #As the problem mentions, the solution is 120 reversible numbers below 1,000 (1e4)
+print(unique_reversed_pair_generator(int(1e4))) #As the problem mentions, the solution is 120 reversible numbers below 1,000 (1e4)
